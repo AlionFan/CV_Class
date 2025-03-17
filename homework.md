@@ -8,7 +8,7 @@ title: Dataset
         <ul class="dataset-nav">
             <li><a href="#work1" class="active" data-content="work1">1. First Attempt</a></li>
             <li><a href="#work2" data-content="work2">2. Edge Detection</a></li>
-            <li><a href="#work3" data-content="work3">3. Future Work</a></li>
+            <li><a href="#work3" data-content="work3">3. Fingerprint matching and image stitching</a></li>
         </ul>
     </div>
 

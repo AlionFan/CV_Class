@@ -42,7 +42,7 @@
         <ul class="dataset-nav">
             <li><a href="#work1" class="active" data-content="work1">1. First Attempt</a></li>
             <li><a href="#work2" data-content="work2">2. Edge Detection</a></li>
-            <li><a href="#work3" data-content="work3">3. Future Work</a></li>
+            <li><a href="#work3" data-content="work3">3. Fingerprint matching and image stitching</a></li>
         </ul>
     </div>
 
@@ -53,9 +53,53 @@
     <h1>第一周作业</h1>
     <h2>1. 原图像</h2>
     
+    <!-- <style>
+        .image-container1 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .image-with-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .image-with-title img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .image-title {
+            text-align: center;
+            margin: 0;
+            font-size: 16px;
+        }
+    </style> -->
+    
     <div class="image-container1">
         <img src="/CV_Class/works/work1/pic/hg.jpg" alt="胡歌" />
-        <img src="/CV_Class/works/work1/pic/wyz.jpg" alt="吴彦祖" />
+        <!-- <img src="/CV_Class/works/work1/pic/wyz.jpg" alt="吴彦祖"> -->
+    </div>
+
+    <h3>实验结果：</h3>
+    <div class="image-grid-container">
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/main1.png" alt="蒙版" />
+            <p class="image-grid-title">蒙版效果</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/canny.png" alt="Canny" />
+            <p class="image-grid-title">Canny边缘检测</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/sobel.png" alt="sobel" />
+            <p class="image-grid-title">Sobel边缘检测</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/laplacian.png" alt="laplacian" />
+            <p class="image-grid-title">Laplacian边缘检测</p>
+        </div>
     </div>
     
     <h3>代码实现：</h3>
@@ -134,11 +178,48 @@ cv2.imshow('Canny Edge Detection', edges)
 cv2.waitKey()
 cv2.destroyAllWindows()
     </code></pre>
-    
+
+<h3>实验结果：</h3>
+    <div class="image-grid-container">
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/main1.png" alt="蒙版" />
+            <p class="image-grid-title">蒙版效果</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/canny.png" alt="Canny" />
+            <p class="image-grid-title">Canny边缘检测</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/sobel.png" alt="sobel" />
+            <p class="image-grid-title">Sobel边缘检测</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/laplacian.png" alt="laplacian" />
+            <p class="image-grid-title">Laplacian边缘检测</p>
+        </div>
+    </div>
     <h3>实验结果分析：</h3>
     <p>
-        本实验使用HSV颜色空间进行图像分割。通过设定HSV的阈值范围（色调：0-33，饱和度：10-255，亮度：80-255），
-        成功提取出图像中的黄色区域。使用位运算（bitwise_and）将掩码应用于原图，得到只保留黄色区域的结果图像。
+        本实验实现了多种图像处理方法，主要包括以下内容：
+    </p>
+    <p>
+        1. <strong>HSV颜色空间分割</strong>：
+        <ul>
+            <li>通过设定HSV的阈值范围（色调：0-33，饱和度：10-255，亮度：80-255），成功提取出图像中的黄色区域。使用位运算（bitwise_and）将掩码应用于原图，得到只保留黄色区域的结果图像。</li>
+        </ul>
+    </p>
+    <p>
+        2. <strong>边缘检测方法对比</strong>：
+        <ul>
+            <li>蒙版方法：通过HSV颜色空间和阈值分割，能够有效提取特定颜色区域，适合颜色特征明显的目标检测。</li>
+            <li>Canny边缘检测：能够检测出图像中的显著边缘，对噪声具有较好的抑制作用，边缘定位准确。</li>
+            <li>Sobel边缘检测：通过计算x和y方向的梯度来检测边缘，对水平和垂直方向的边缘较为敏感。</li>
+            <li>Laplacian边缘检测：基于二阶导数，对边缘的定位较为精确，但对噪声较为敏感。</li>
+        </ul>
+    </p>
+    <p>
+        通过对比不同方法的结果，可以看出各种方法各有特点：HSV颜色空间分割适合基于颜色的目标提取，
+        而不同的边缘检测算法则适用于不同的场景需求。在实际应用中，可以根据具体需求选择合适的方法或组合使用。
     </p>
 </div> 
         </div>
@@ -146,35 +227,277 @@ cv2.destroyAllWindows()
         <div id="work2-content" class="work-content">
             <div id="work2">
     <h1>第二周作业</h1>
-    <h2>1. 边缘检测</h2>
+    <h2>1. 原图像</h2>
     <div class="image-container1">
-        <img src="/CV_Class/works/work1/pic/hg.jpg" alt="胡歌" />
-        <img src="/CV_Class/works/work1/pic/hg.jpg" alt="吴彦祖" />
+        <img src="/CV_Class/works/work2/pic/hg.jpg" alt="胡歌" />
     </div>
     
+    <h3>实验结果</h3>
+<div class="image-grid-container">
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work2/pic/Figure_1.png" alt="形态学操作" />
+        <p class="image-grid-title">形态学操作</p>
+    </div>
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work2/pic/Figure_2.png" alt="滤波" />
+        <p class="image-grid-title">滤波效果</p>
+    </div>
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work2/pic/Figure_3.png" alt="直方图均衡化" />
+        <p class="image-grid-title">直方图均衡化</p>
+    </div>
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work2/pic/Figure_4.png" alt="边缘检测" />
+        <p class="image-grid-title">边缘检测</p>
+    </div>
+</div>
+
     <h3>代码实现：</h3>
-    <pre><code class="python">
+    <h4>1. 形态学操作</h4>
+<pre><code class="language-python">
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
 
 # 读取图像
-img = cv2.imread('original.jpg')
-# 转换为灰度图
-gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-# 使用Canny算子进行边缘检测
-edges = cv2.Canny(gray, 100, 200)
+img = cv2.imread('pic/hg.jpg')
 
-cv2.imshow('Original', img)
-cv2.imshow('Edges', edges)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-    </code></pre>
-    
+# 创建结构元素
+kernel = np.ones((5,5), np.uint8)
+
+# 进行形态学操作
+erosion = cv2.erode(img, kernel, iterations=1)  # 腐蚀
+dilation = cv2.dilate(img, kernel, iterations=1)  # 膨胀
+opening = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)  # 开运算
+closing = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)  # 闭运算
+gradient = cv2.morphologyEx(img, cv2.MORPH_GRADIENT, kernel)  # 形态学梯度
+tophat = cv2.morphologyEx(img, cv2.MORPH_TOPHAT, kernel)  # 顶帽
+blackhat = cv2.morphologyEx(img, cv2.MORPH_BLACKHAT, kernel)  # 黑帽
+
+# 创建图像展示
+titles = ['原图', '腐蚀', '膨胀', '开运算', '闭运算', '形态学梯度', '顶帽', '黑帽']
+images = [img, erosion, dilation, opening, closing, gradient, tophat, blackhat]
+
+# 设置图像显示
+plt.figure(figsize=(16, 8))
+for i in range(8):
+    plt.subplot(2, 4, i+1)
+    plt.imshow(cv2.cvtColor(images[i], cv2.COLOR_BGR2RGB))
+    plt.title(titles[i])
+    plt.axis('off')
+
+plt.tight_layout()
+plt.show()
+</code></pre>
+
+    <h4>2. 滤波器</h4>
+<pre><code class="language-python">
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 读取图像
+img = cv2.imread('pic/hg.jpg')
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+# 均值滤波
+mean_blur = cv2.blur(img, (5,5))
+
+# 高斯滤波
+gaussian_blur = cv2.GaussianBlur(img, (5,5), 0)
+
+# 中值滤波
+median_blur = cv2.medianBlur(img, 5)
+
+# 双边滤波
+bilateral_blur = cv2.bilateralFilter(img, 9, 75, 75)
+
+# 创建图像对比展示
+plt.figure(figsize=(12,8))
+
+plt.subplot(231)
+plt.imshow(img)
+plt.title('原图')
+plt.axis('off')
+
+plt.subplot(232)
+plt.imshow(mean_blur)
+plt.title('均值滤波')
+plt.axis('off')
+
+plt.subplot(233)
+plt.imshow(gaussian_blur)
+plt.title('高斯滤波')
+plt.axis('off')
+
+plt.subplot(234)
+plt.imshow(median_blur)
+plt.title('中值滤波')
+plt.axis('off')
+
+plt.subplot(235)
+plt.imshow(bilateral_blur)
+plt.title('双边滤波')
+plt.axis('off')
+
+plt.tight_layout()
+plt.savefig('Figure_2.png')
+plt.show()
+</code></pre>
+
+    <h4>3. 直方图均衡化</h4>
+<pre><code class="language-python">
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 读取图像
+img = cv2.imread('pic/hg.jpg')
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# 创建子图布局
+plt.figure(figsize=(12, 8))
+
+# 显示原始灰度图
+plt.subplot(2, 2, 1)
+plt.imshow(gray, cmap='gray')
+plt.title('原始灰度图')
+
+# 计算并显示直方图
+plt.subplot(2, 2, 2)
+plt.hist(gray.ravel(), 256, [0, 256])
+plt.title('灰度直方图')
+
+# 直方图均衡化
+equ = cv2.equalizeHist(gray)
+plt.subplot(2, 2, 3)
+plt.imshow(equ, cmap='gray')
+plt.title('直方图均衡化结果')
+
+# 自适应直方图均衡化
+clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+cl1 = clahe.apply(gray)
+plt.subplot(2, 2, 4)
+plt.imshow(cl1, cmap='gray')
+plt.title('自适应直方图均衡化结果')
+
+plt.tight_layout()
+plt.savefig('Figure_3.png')
+plt.show()
+</code></pre>
+
+    <h4>4. 边缘检测</h4>
+<pre><code class="language-python">
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 读取图像
+img = cv2.imread('pic/hg.jpg', 0)
+
+# 创建子图
+plt.figure(figsize=(15, 10))
+
+# 原图
+plt.subplot(231)
+plt.imshow(img, cmap='gray')
+plt.title('原始图像')
+
+# Sobel算子边缘检测
+sobelx = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)
+sobely = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=3)
+sobel = np.sqrt(sobelx**2 + sobely**2)
+plt.subplot(232)
+plt.imshow(sobel, cmap='gray')
+plt.title('Sobel边缘检测')
+
+# Scharr算子边缘检测
+scharrx = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=-1)  # X方向梯度
+scharry = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=-1)  # Y方向梯度
+scharr = np.sqrt(scharrx**2 + scharry**2)  # 梯度幅值计算
+plt.subplot(233)
+plt.imshow(scharr, cmap='gray')
+plt.title('Scharr边缘检测')
+
+# Laplacian算子边缘检测
+laplacian = cv2.Laplacian(img, cv2.CV_64F)
+plt.subplot(234)
+plt.imshow(np.absolute(laplacian), cmap='gray')
+plt.title('Laplacian边缘检测')
+
+# Canny边缘检测
+canny = cv2.Canny(img, 100, 200)
+plt.subplot(235)
+plt.imshow(canny, cmap='gray')
+plt.title('Canny边缘检测')
+
+plt.tight_layout()
+plt.savefig('Figure_4.png')
+plt.show()
+</code></pre>
+
+<h3>实验结果</h3>
+<div class="image-grid-container">
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work2/pic/Figure_1.png" alt="形态学操作" />
+        <p class="image-grid-title">形态学操作</p>
+    </div>
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work2/pic/Figure_2.png" alt="滤波" />
+        <p class="image-grid-title">滤波效果</p>
+    </div>
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work2/pic/Figure_3.png" alt="直方图均衡化" />
+        <p class="image-grid-title">直方图均衡化</p>
+    </div>
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work2/pic/Figure_4.png" alt="边缘检测" />
+        <p class="image-grid-title">边缘检测</p>
+    </div>
+</div>
+
     <h3>实验结果分析：</h3>
     <p>
-        使用Canny边缘检测算法对图像进行处理。该算法首先对图像进行高斯滤波以去除噪声，
-        然后计算图像梯度的幅值和方向，接着进行非极大值抑制，最后通过双阈值检测和连接边缘。
-        从结果可以看出，算法成功检测出了图像中的主要边缘特征。
+        本实验实现了多种图像处理方法，主要包括以下内容：
+    </p>
+    <p>
+        1. <strong>形态学操作</strong>：
+        <ul>
+            <li>腐蚀操作：能够去除图像中的小物体，使目标区域变小。</li>
+            <li>膨胀操作：能够填充目标区域中的小孔，使目标区域变大。</li>
+            <li>开运算：先腐蚀后膨胀，可以去除小的噪点，同时保持目标区域大小基本不变。</li>
+            <li>闭运算：先膨胀后腐蚀，可以填充小的空洞，同时保持目标区域大小基本不变。</li>
+            <li>形态学梯度：膨胀结果与腐蚀结果的差值，可以突出边缘信息。</li>
+            <li>顶帽和黑帽：分别用于突出图像中的亮细节和暗细节。</li>
+        </ul>
+    </p>
+    <p>
+        2. <strong>滤波处理</strong>：
+        <ul>
+            <li>均值滤波：简单有效，但可能会模糊图像细节。</li>
+            <li>高斯滤波：考虑了像素距离的权重，对噪声有较好的抑制作用。</li>
+            <li>中值滤波：对椒盐噪声特别有效，能较好地保持边缘信息。</li>
+            <li>双边滤波：在保持边缘的同时进行平滑，效果最为自然。</li>
+        </ul>
+    </p>
+    <p>
+        3. <strong>直方图均衡化</strong>：
+        <ul>
+            <li>全局直方图均衡化：提高了图像的整体对比度，但可能会过度增强某些区域。</li>
+            <li>自适应直方图均衡化：通过局部区域的处理，能够更好地保持细节信息，效果更加自然。</li>
+        </ul>
+    </p>
+    <p>
+        4. <strong>边缘检测</strong>：
+        <ul>
+            <li>Sobel算子：对水平和垂直方向的边缘较为敏感，计算简单快速。</li>
+            <li>Scharr算子：是Sobel算子的改进版本，对边缘的检测更加精确。</li>
+            <li>Laplacian算子：对边缘的定位较为精确，但对噪声较为敏感。</li>
+            <li>Canny边缘检测：综合性能最好，能够抑制噪声，同时保持边缘的连续性。</li>
+        </ul>
+    </p>
+    <p>
+        通过本次实验，我们深入了解了各种图像处理方法的特点和适用场景。在实际应用中，可以根据具体需求选择合适的方法或组合使用多种方法，以达到最佳的处理效果。
     </p>
 </div> 
         </div>
@@ -183,22 +506,322 @@ cv2.destroyAllWindows()
             <!-- 第三周作业内容 -->
 <div id="work3">
     <h1>第三周作业</h1>
-    <h2>1. 待完成的工作</h2>
-    
-    <div class="future-work">
-        <h3>计划完成的任务：</h3>
-        <ul>
-            <li>图像分割算法的实现</li>
-            <li>目标检测模型的训练</li>
-            <li>实时视频处理功能的开发</li>
-        </ul>
-        
-        <h3>预期目标：</h3>
-        <p>
-            通过实现上述功能，构建一个完整的计算机视觉处理系统，
-            能够对图像和视频进行实时处理和分析。
-        </p>
+    <h2>1. 基本作业</h2>
+    <h3>指纹匹配</h3>
+        <div class="image-grid-container">
+            <div class="image-grid-item">
+                <img src="/CV_Class/works/work3/pic/fig1.png" alt="指纹1" />
+                <p class="image-grid-title">指纹1</p>
+            </div>
+            <div class="image-grid-item">
+                <img src="/CV_Class/works/work3/pic/fig2.png" alt="指纹2" />
+                <p class="image-grid-title">指纹2</p>
+            </div>
+            <div class="image-grid-item">
+                <img src="/CV_Class/works/work3/pic/fig3.png" alt="指纹3" />
+                <p class="image-grid-title">指纹3</p>
+            </div>
+
+        </div>
+
+        <h3>实验结果</h3>
+<div class="image-grid-container">
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work3/result/ver1.png" alt="指纹1" />
+        <p class="image-grid-title">指纹1</p>
     </div>
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work3/result/ver2.png" alt="指纹2" />
+        <p class="image-grid-title">指纹2</p>
+    </div>
+</div>
+
+    <h3>代码实现</h3>
+        
+<pre><code class="language-python">
+import cv2
+import numpy as np
+
+def verify_fingerprint(img_path1, img_path2, result_filename=None):
+    # 读取图像
+    img1 = cv2.imread(img_path1, cv2.IMREAD_GRAYSCALE)
+    img2 = cv2.imread(img_path2, cv2.IMREAD_GRAYSCALE)
+    
+    if img1 is None or img2 is None:
+        print(f"Error: 无法读取图像文件")
+        return False
+    
+    # 创建SIFT特征检测器
+    sift = cv2.SIFT_create()
+    
+    # 检测关键点和计算描述符
+    kp1, des1 = sift.detectAndCompute(img1, None)
+    kp2, des2 = sift.detectAndCompute(img2, None)
+    
+    if des1 is None or des2 is None:
+        print(f"Error: 无法提取特征描述符")
+        return False
+    
+    # 创建FLANN匹配器
+    FLANN_INDEX_KDTREE = 1
+    index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
+    search_params = dict(checks=50)
+    flann = cv2.FlannBasedMatcher(index_params, search_params)
+    
+    # 进行特征匹配
+    matches = flann.knnMatch(des1, des2, k=2)
+    
+    # 应用Lowe's比率测试来筛选好的匹配点
+    good_matches = []
+    for m, n in matches:
+        if m.distance &lt; 0.7 * n.distance:
+            good_matches.append(m)
+    
+    # 获取匹配点数量
+    match_count = len(good_matches)
+    print(f"匹配点数量: {match_count}")
+    
+    # 判断是否验证通过
+    is_verified = match_count &gt; 300
+    print(f"验证结果: {'通过' if is_verified else '未通过'}")
+    
+    # 绘制匹配结果
+    result_img = cv2.drawMatches(img1, kp1, img2, kp2, good_matches, None,
+                               flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+    
+    # 显示匹配结果
+    cv2.imshow('指纹匹配结果', result_img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    
+    # 保存结果图像
+    if result_filename:
+        cv2.imwrite(f'result/{result_filename}', result_img)
+    
+    return is_verified
+
+def main():
+    # 模板指纹图像路径
+    img_path1 = 'pic/fig1.png'
+    
+    # 测试其他指纹图像
+    img_path2 = ['pic/fig2.png', 'pic/fig3.png']
+    
+    for i, img in enumerate(img_path2, 1):
+        print(f"\n正在验证图像: {img}")
+        verify_fingerprint(img_path1, img, f'ver{i}.png')
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+
+<h3>实验结果</h3>
+<div class="image-grid-container">
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work3/result/ver1.png" alt="指纹1" />
+        <p class="image-grid-title">指纹1</p>
+    </div>
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work3/result/ver2.png" alt="指纹2" />
+        <p class="image-grid-title">指纹2</p>
+    </div>
+</div>
+
+<br />
+<p>
+    <strong>验证结果分析：</strong>
+</p>
+<br />
+<p>
+    1. 指纹2验证结果：
+</p>
+<ul>
+    <li>匹配点数量：481</li>
+    <li>验证结果：通过</li>
+</ul>
+<br />
+<p>
+    2. 指纹3验证结果：
+</p>
+<ul>
+    <li>匹配点数量：13</li>
+    <li>验证结果：未通过</li>
+</ul>
+<br />
+<p>
+    从实验结果可以看出，指纹2与模板指纹（指纹1）具有较高的匹配度，匹配点数量远超过阈值（300），说明这两枚指纹来自同一个手指。
+    而指纹3的匹配点数量仅为13个，远低于阈值，说明这枚指纹与模板指纹不匹配，可能来自不同的手指。
+</p>
+
+<h2>2. 选做作业</h2>
+<h3>图像拼接</h3>
+<div class="image-grid-container">
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work3/pic/pic1.jpg" alt="图像1" />
+        <p class="image-grid-title">图像1</p>
+    </div>
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work3/pic/pic2.jpg" alt="图像2" />
+        <p class="image-grid-title">图像2</p>
+    </div>
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work3/pic/pic3.jpg" alt="图像3" />
+        <p class="image-grid-title">图像3</p>
+    </div>
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work3/result/result.png" alt="拼接结果" />
+        <p class="image-grid-title">拼接结果</p>
+    </div>
+</div>
+
+<h3>实验结果</h3>
+
+
+<pre><code class="language-python">
+import cv2
+import numpy as np
+
+def find_homography(img1, img2):
+    # 初始化SIFT检测器
+    sift = cv2.SIFT_create()
+    
+    # 检测关键点和描述符
+    kp1, des1 = sift.detectAndCompute(img1, None)
+    kp2, des2 = sift.detectAndCompute(img2, None)
+    
+    # 使用FLANN匹配器
+    FLANN_INDEX_KDTREE = 1
+    index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
+    search_params = dict(checks=50)
+    flann = cv2.FlannBasedMatcher(index_params, search_params)
+    matches = flann.knnMatch(des1, des2, k=2)
+    
+    # 应用Lowe's ratio测试找到好的匹配点
+    good_matches = []
+    for m, n in matches:
+        if m.distance &lt; 0.7 * n.distance:
+            good_matches.append(m)
+    
+    if len(good_matches) &lt; 4:
+        return None
+    
+    # 获取匹配点的坐标
+    src_pts = np.float32([kp1[m.queryIdx].pt for m in good_matches]).reshape(-1, 1, 2)
+    dst_pts = np.float32([kp2[m.trainIdx].pt for m in good_matches]).reshape(-1, 1, 2)
+    
+    # 计算单应性矩阵
+    H, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, 5.0)
+    
+    return H
+
+def transform_image(img, H, output_shape):
+    return cv2.warpPerspective(img, H, (output_shape[1], output_shape[0]))
+
+def stitch_images():
+    # 读取输入图像
+    img1 = cv2.imread('pic/pic1.jpg')
+    img2 = cv2.imread('pic/pic2.jpg')  # 基准图像
+    img3 = cv2.imread('pic/pic3.jpg')
+    
+    if img1 is None or img2 is None or img3 is None:
+        print("Error: 无法读取图像文件")
+        return
+    
+    # 获取基准图像的尺寸
+    h2, w2 = img2.shape[:2]
+    
+    # 计算左图到中间图的单应性矩阵
+    H1 = find_homography(img1, img2)
+    if H1 is None:
+        print("Error: 无法找到pic1到pic2的变换")
+        return
+        
+    # 计算右图到中间图的单应性矩阵
+    H3 = find_homography(img3, img2)
+    if H3 is None:
+        print("Error: 无法找到pic3到pic2的变换")
+        return
+    
+    # 计算变换后的图像范围
+    h1, w1 = img1.shape[:2]
+    h3, w3 = img3.shape[:2]
+    
+    # 计算左图变换后的边界点
+    pts1 = np.float32([[0, 0], [0, h1-1], [w1-1, h1-1], [w1-1, 0]]).reshape(-1, 1, 2)
+    dst1 = cv2.perspectiveTransform(pts1, H1)
+    
+    # 计算右图变换后的边界点
+    pts3 = np.float32([[0, 0], [0, h3-1], [w3-1, h3-1], [w3-1, 0]]).reshape(-1, 1, 2)
+    dst3 = cv2.perspectiveTransform(pts3, H3)
+    
+    # 计算全景图的范围
+    pts = np.concatenate((dst1, dst3), axis=0)
+    min_x = min(min(pts[:, 0, 0]), 0)
+    min_y = min(min(pts[:, 0, 1]), 0)
+    max_x = max(max(pts[:, 0, 0]), w2)
+    max_y = max(max(pts[:, 0, 1]), h2)
+    
+    # 创建平移矩阵
+    move_h = -min_y
+    move_w = -min_x
+    translation = np.array([[1, 0, move_w], [0, 1, move_h], [0, 0, 1]])
+    
+    # 计算最终输出图像的大小
+    out_h = int(max_y - min_y)
+    out_w = int(max_x - min_x)
+    
+    # 创建输出图像
+    output_shape = (out_h, out_w)
+    result = np.zeros((out_h, out_w, 3), dtype=np.uint8)
+    
+    # 变换左图
+    H1_translated = translation.dot(H1)
+    warped1 = transform_image(img1, H1_translated, output_shape)
+    
+    # 变换右图
+    H3_translated = translation.dot(H3)
+    warped3 = transform_image(img3, H3_translated, output_shape)
+    
+    # 将中间图放在正确的位置
+    warped2 = np.zeros_like(result)
+    warped2[int(move_h):int(move_h)+h2, int(move_w):int(move_w)+w2] = img2
+    
+    # 创建掩码
+    mask1 = cv2.cvtColor(warped1, cv2.COLOR_BGR2GRAY) &gt; 0
+    mask2 = cv2.cvtColor(warped2, cv2.COLOR_BGR2GRAY) &gt; 0
+    mask3 = cv2.cvtColor(warped3, cv2.COLOR_BGR2GRAY) &gt; 0
+    
+    # 合并图像
+    result = np.zeros_like(warped1)
+    result[mask1] = warped1[mask1]
+    result[mask2] = warped2[mask2]
+    result[mask3] = warped3[mask3]
+    
+    # 保存结果
+    cv2.imwrite('result/result.png', result)
+    print('拼接完成！结果已保存为 result/result.png')
+
+if __name__ == '__main__':
+    stitch_images() 
+</code></pre>
+
+<h3>实验结果</h3>
+<div class="image-grid-container">
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work3/result/result.png" alt="拼接结果" />
+        <p class="image-grid-title">拼接结果</p>
+    </div>
+</div>
+
+<img src="/CV_Class/works/work3/pic/pic1.jpg" alt="图像1" style="width: 25%; height: auto;" />
+<img src="/CV_Class/works/work3/pic/pic2.jpg" alt="图像2" style="width: 25%; height: auto;" />
+<img src="/CV_Class/works/work3/pic/pic3.jpg" alt="图像3" style="width: 25%; height: auto;" />
+
+
+<h3>实验结果分析</h3>
+<p>
+    通过实验结果可以看出，图像拼接的效果较好，拼接后的图像较为完整，且拼接的边界较为自然。
+</p>
 </div> 
         </div>
     </div>

@@ -3,9 +3,53 @@
     <h1>第一周作业</h1>
     <h2>1. 原图像</h2>
     
+    <!-- <style>
+        .image-container1 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .image-with-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .image-with-title img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .image-title {
+            text-align: center;
+            margin: 0;
+            font-size: 16px;
+        }
+    </style> -->
+    
     <div class="image-container1">
         <img src="/CV_Class/works/work1/pic/hg.jpg" alt="胡歌">
-        <img src="/CV_Class/works/work1/pic/wyz.jpg" alt="吴彦祖">
+        <!-- <img src="/CV_Class/works/work1/pic/wyz.jpg" alt="吴彦祖"> -->
+    </div>
+
+    <h3>实验结果：</h3>
+    <div class="image-grid-container">
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/main1.png" alt="蒙版">
+            <p class="image-grid-title">蒙版效果</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/canny.png" alt="Canny">
+            <p class="image-grid-title">Canny边缘检测</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/sobel.png" alt="sobel">
+            <p class="image-grid-title">Sobel边缘检测</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/laplacian.png" alt="laplacian">
+            <p class="image-grid-title">Laplacian边缘检测</p>
+        </div>
     </div>
     
     <h3>代码实现：</h3>
@@ -84,10 +128,47 @@ cv2.imshow('Canny Edge Detection', edges)
 cv2.waitKey()
 cv2.destroyAllWindows()
     </code></pre>
-    
+
+<h3>实验结果：</h3>
+    <div class="image-grid-container">
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/main1.png" alt="蒙版">
+            <p class="image-grid-title">蒙版效果</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/canny.png" alt="Canny">
+            <p class="image-grid-title">Canny边缘检测</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/sobel.png" alt="sobel">
+            <p class="image-grid-title">Sobel边缘检测</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/laplacian.png" alt="laplacian">
+            <p class="image-grid-title">Laplacian边缘检测</p>
+        </div>
+    </div>
     <h3>实验结果分析：</h3>
     <p>
-        本实验使用HSV颜色空间进行图像分割。通过设定HSV的阈值范围（色调：0-33，饱和度：10-255，亮度：80-255），
-        成功提取出图像中的黄色区域。使用位运算（bitwise_and）将掩码应用于原图，得到只保留黄色区域的结果图像。
+        本实验实现了多种图像处理方法，主要包括以下内容：
+    </p>
+    <p>
+        1. <strong>HSV颜色空间分割</strong>：
+        <ul>
+            <li>通过设定HSV的阈值范围（色调：0-33，饱和度：10-255，亮度：80-255），成功提取出图像中的黄色区域。使用位运算（bitwise_and）将掩码应用于原图，得到只保留黄色区域的结果图像。</li>
+        </ul>
+    </p>
+    <p>
+        2. <strong>边缘检测方法对比</strong>：
+        <ul>
+            <li>蒙版方法：通过HSV颜色空间和阈值分割，能够有效提取特定颜色区域，适合颜色特征明显的目标检测。</li>
+            <li>Canny边缘检测：能够检测出图像中的显著边缘，对噪声具有较好的抑制作用，边缘定位准确。</li>
+            <li>Sobel边缘检测：通过计算x和y方向的梯度来检测边缘，对水平和垂直方向的边缘较为敏感。</li>
+            <li>Laplacian边缘检测：基于二阶导数，对边缘的定位较为精确，但对噪声较为敏感。</li>
+        </ul>
+    </p>
+    <p>
+        通过对比不同方法的结果，可以看出各种方法各有特点：HSV颜色空间分割适合基于颜色的目标提取，
+        而不同的边缘检测算法则适用于不同的场景需求。在实际应用中，可以根据具体需求选择合适的方法或组合使用。
     </p>
 </div> 
