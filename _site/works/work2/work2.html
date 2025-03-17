@@ -1,0 +1,33 @@
+<div id="work2">
+    <h1>第二周作业</h1>
+    <h2>1. 边缘检测</h2>
+    <div class="image-container1">
+        <img src="/works/work1/pic/hg.jpg" alt="胡歌">
+        <img src="/works/work1/pic/hg.jpg" alt="吴彦祖">
+    </div>
+    
+    <h3>代码实现：</h3>
+    <pre><code class="python">
+import cv2
+import numpy as np
+
+# 读取图像
+img = cv2.imread('original.jpg')
+# 转换为灰度图
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+# 使用Canny算子进行边缘检测
+edges = cv2.Canny(gray, 100, 200)
+
+cv2.imshow('Original', img)
+cv2.imshow('Edges', edges)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+    </code></pre>
+    
+    <h3>实验结果分析：</h3>
+    <p>
+        使用Canny边缘检测算法对图像进行处理。该算法首先对图像进行高斯滤波以去除噪声，
+        然后计算图像梯度的幅值和方向，接着进行非极大值抑制，最后通过双阈值检测和连接边缘。
+        从结果可以看出，算法成功检测出了图像中的主要边缘特征。
+    </p>
+</div> 
