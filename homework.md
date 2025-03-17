@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Dataset
+title: 每周作业
 ---
 
 <div class="dataset-page">
