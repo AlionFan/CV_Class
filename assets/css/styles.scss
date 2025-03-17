@@ -223,3 +223,25 @@ code {
 
 
 
+.image-container1 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: 20px 0;
+}
+.image-with-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.image-with-title img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+.image-title {
+    text-align: center;
+    margin: 0;
+    font-size: 16px;
+}
+
