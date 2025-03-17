@@ -1,4 +1,7 @@
 .git
 _site
+.gitignore
 .github
 docs
+.DS_Store
+.sass-cache
