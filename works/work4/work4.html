@@ -4,7 +4,7 @@
     <h1>第四周作业</h1>
     <h2>目标追踪</h2>
     <h3>1.原视频</h3>
-        <video width="600" controls muted preload="none">
+        <video width="600" controls autoplay muted preload="none">
             <source src="{{ 'works/work4/video/video1.mov' | relative_url }}" type="video/mp4">
         </video>
     
@@ -12,13 +12,13 @@
     <div style="display: flex; gap: 20px; margin: 20px 0;">
         <div>
             <h4>1.基于meanshift算法</h4>
-            <video width="600" controls muted preload="metadata" style="flex:1">
+            <video width="600" controls autoplay muted preload="metadata" style="flex:1">
                 <source src="{{ 'works/work4/video/meanshift.mp4' | relative_url }}" type="video/mp4">
             </video>
         </div>
         <div>
             <h4>2.基于camshift算法</h4>
-            <video width="600" controls muted preload="metadata" style="flex:1">
+            <video width="600" controls autoplay muted preload="metadata" style="flex:1">
                 <source src="{{ 'works/work4/video/camshift.mp4' | relative_url }}" type="video/mp4">
             </video>
         </div>
@@ -116,4 +116,4 @@ cv2.destroyAllWindows()
 </code></pre>
 
 <h3>实验结果分析</h3>
-
+meanshift与camshift两个算法的效果基本差不多。
