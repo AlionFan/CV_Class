@@ -33,3 +33,5 @@ gem "wdm", "~> 0.1", :platforms => [:mingw, :x64_mingw, :mswin]
 gem "http_parser.rb", "~> 0.6.0", :platforms => [:jruby]
 gem "kramdown-parser-gfm"
 gem "webrick"
+
+gem "puma", "~> 6.6", :group => :development

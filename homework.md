@@ -9,6 +9,7 @@ title: 每周作业
             <li><a href="#work1" class="active" data-content="work1">1. First Attempt</a></li>
             <li><a href="#work2" data-content="work2">2. Edge Detection</a></li>
             <li><a href="#work3" data-content="work3">3. Fingerprint matching and image stitching</a></li>
+            <li><a href="#work4" data-content="work4">4. Target Tracking</a></li>
         </ul>
     </div>
 
@@ -24,6 +25,11 @@ title: 每周作业
         <div id="work3-content" class="work-content">
             {% include_relative works/work3/work3.html %}
         </div>
+
+        <div id="work4-content" class="work-content">
+            {% include_relative works/work4/work4.html %}
+        </div>
+        
     </div>
 </div>
 
