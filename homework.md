@@ -3,7 +3,12 @@ layout: default
 title: 每周作业
 ---
 
+<script src="/CV_Class/assets/js/page_nav.js"></script>
+
+<script src="/CV_Class/assets/js/content_nav.js"></script>
+
 <div class="dataset-page">
+    <!-- 左侧导航栏 - 页面间跳转 -->
     <div class="dataset-sidebar">
         <ul class="dataset-nav">
             <li><a href="#work1" class="active" data-content="work1">1. First Attempt</a></li>
@@ -13,6 +18,7 @@ title: 每周作业
         </ul>
     </div>
 
+    <!-- 中间内容区域 -->
     <div class="dataset-content">
         <div id="work1-content" class="work-content active">
             {% include_relative works/work1/work1.html %}
@@ -29,39 +35,17 @@ title: 每周作业
         <div id="work4-content" class="work-content">
             {% include_relative works/work4/work4.html %}
         </div>
-        
+    </div>
+    
+    <!-- 右侧目录导航 - 页面内跳转 -->
+    <div class="content-sidebar">
+        <div class="toc-container">
+            <h3>目录</h3>
+            <div id="toc" class="toc-nav"></div>
+        </div>
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // 获取所有导航链接和内容区域
-    const navLinks = document.querySelectorAll('.dataset-nav a');
-    const contentDivs = document.querySelectorAll('.work-content');
 
-    // 为每个导航链接添加点击事件
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // 移除所有导航链接的active类
-            navLinks.forEach(a => a.classList.remove('active'));
-            // 为当前点击的链接添加active类
-            this.classList.add('active');
-
-            // 隐藏所有内容
-            contentDivs.forEach(div => div.classList.remove('active'));
-            
-            // 显示对应的内容
-            const contentId = this.getAttribute('data-content') + '-content';
-            document.getElementById(contentId).classList.add('active');
-        });
-    });
-});
-</script>
-
-<footer style="text-align: center; margin-top: 20px; padding: 10px; background-color: #f5f5f5;">
-    <p>© Copyright Capital Normal University 2025</p>
-</footer>
 
 
