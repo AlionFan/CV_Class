@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 为所有代码块添加复制按钮
     document.querySelectorAll('pre').forEach(pre => {
         const btn = document.createElement('button');
         btn.className = 'copy-btn';

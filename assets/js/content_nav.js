@@ -1,25 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // 原有的标签页切换功能
-    const navLinks = document.querySelectorAll('.dataset-nav a');
-    const contentDivs = document.querySelectorAll('.work-content');
-
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            navLinks.forEach(a => a.classList.remove('active'));
-            this.classList.add('active');
-
-            contentDivs.forEach(div => div.classList.remove('active'));
-            
-            const contentId = this.getAttribute('data-content') + '-content';
-            document.getElementById(contentId).classList.add('active');
-            
-            // 切换标签页后重新生成目录
-            generateTOC();
-        });
-    });
-    
     // 生成目录功能
     function generateTOC() {
         const activeContent = document.querySelector('.work-content.active');
@@ -58,4 +37,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初始生成目录
     generateTOC();
+    
+    // 当标签页切换时重新生成目录
+    const navLinks = document.querySelectorAll('.dataset-nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            setTimeout(generateTOC, 100); // 延迟一点时间确保内容已切换
+        });
+    });
 });

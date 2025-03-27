@@ -391,13 +391,17 @@ code {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
-    margin: 24px 0;
+    margin: 24px auto; /* 修改为上下24px，左右自动居中 */
+    width: 90%; /* 添加宽度为90% */
+    max-width: 1200px; /* 可选：添加最大宽度限制 */
 }
 
+/* 其他相关样式保持不变 */
 .image-grid-item {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center; /* 添加此行使内容垂直居中 */
     padding: 16px;
     background-color: white;
     border-radius: 12px;
@@ -411,7 +415,7 @@ code {
 }
 
 .image-grid-item img {
-    max-width: 100%;
+    max-width: 90%; /* 修改为原来的90% */
     height: auto;
     margin-bottom: 12px;
     border-radius: 8px;
