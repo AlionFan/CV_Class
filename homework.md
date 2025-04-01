@@ -7,6 +7,8 @@ title: 每周作业
 
 <script src="/CV_Class/assets/js/content_nav.js"></script>
 
+<script src="/CV_Class/assets/js/mobile-nav.js"></script>
+
 <div class="dataset-page">
     <!-- 左侧导航栏 - 页面间跳转 -->
     <div class="dataset-sidebar">

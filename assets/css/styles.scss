@@ -271,12 +271,169 @@
 
 @media (max-width: 768px) {
     .dataset-sidebar {
-        display: none;
+        position: fixed;
+        left: -220px;
+        transition: left 0.3s ease;
+        z-index: 1000;
+        background-color: white;
+        box-shadow: var(--shadow-md);
+        height: 100vh;
+        overflow-y: auto;
+        padding-top: 60px; /* 为顶部导航栏留出空间 */
     }
+
+    .dataset-sidebar.active {
+        left: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+        position: fixed;
+        left: 20px;
+        top: 20px;
+        z-index: 1001;
+        background: white;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: var(--shadow-sm);
+        cursor: pointer;
+    }
+
+    .menu-toggle span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: var(--text-main);
+        margin: 5px 0;
+        transition: 0.3s;
+    }
+
+    /* 当侧边栏打开时，调整主内容区域 */
     .dataset-content {
+        transition: margin-left 0.3s ease;
+    }
+
+    .dataset-content.sidebar-active {
         margin-left: 0;
-        margin-right: 0;
-        padding: 20px;
+    }
+
+    /* 优化移动端滚动体验 */
+    body.sidebar-open {
+        overflow: hidden;
+    }
+
+    /* 调整图片网格布局 */
+    .image-grid-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        width: 100%;
+    }
+
+    .image-container1 {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .image-container1 img {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        margin-bottom: 16px;
+    }
+
+    /* 调整代码块显示 */
+    pre {
+        padding: 15px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* 调整标题大小 */
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    /* 调整导航栏样式 */
+    .site-nav {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .site-nav a {
+        width: 100%;
+        text-align: center;
+        padding: 8px;
+    }
+
+    /* 调整内容区域padding */
+    .main-content {
+        padding: 16px;
+    }
+
+    /* 调整页脚样式 */
+    .site-footer {
+        padding: 1rem;
+        margin-top: 2rem;
+    }
+}
+
+/* 添加平板设备的特定样式 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .dataset-sidebar {
+        width: 180px;
+    }
+
+    .content-sidebar {
+        width: 180px;
+    }
+
+    .dataset-content {
+        margin-left: 180px;
+        margin-right: 180px;
+        padding: 24px;
+    }
+
+    .image-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 添加触摸设备的滚动优化 */
+@media (hover: none) {
+    .dataset-sidebar, .content-sidebar {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* 添加深色模式支持 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-light: #1a1a1a;
+        --text-main: #ffffff;
+        --text-light: #a0a0a0;
+        --border-color: #333333;
+    }
+
+    .site-header, .dataset-sidebar, .content-sidebar {
+        background-color: #1a1a1a;
+    }
+
+    pre {
+        background-color: #2d2d2d;
+    }
+
+    .sidebar-overlay {
+        background-color: rgba(0, 0, 0, 0.7);
     }
 }
 
@@ -535,6 +692,18 @@ code {
     color: var(--text-light);
     margin: 0;
     font-size: 0.9rem;
+}
+
+/* 移动端导航遮罩层样式 */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    transition: opacity 0.3s ease;
 }
 
 
