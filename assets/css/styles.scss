@@ -479,6 +479,24 @@ pre {
     overflow-x: auto;
     position: relative;
     box-shadow: var(--shadow-sm);
+    white-space: pre-wrap;       /* 允许保留空白同时换行 */
+    word-wrap: break-word;       /* 长单词自动换行 */
+    max-width: 100%;             /* 防止溢出容器 */
+}
+
+/* 在移动端保持代码可读性 */
+@media (max-width: 768px) {
+    /* 优化代码块中的行号显示 */
+    .line-numbers-rows {
+        white-space: normal !important;  /* 覆盖prismjs默认样式 */
+        word-break: keep-all;           /* 保持行号不换行 */
+    }
+    pre {
+        white-space: pre-wrap;  /* 确保移动端也强制换行 */
+        font-size: 14px;        /* 适当缩小字体 */
+        padding: 15px;
+        overflow-x: visible;    /* 禁用水平滚动条 */
+    }
 }
 
 /* 复制按钮样式 */

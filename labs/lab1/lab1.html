@@ -301,13 +301,16 @@ image = cv2.imread('jupyter/manyPeople.jpg')
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 # 加载面部检测分类器
-faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')  # 加载预训练的人脸检测分类器
+faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 
+'haarcascade_frontalface_default.xml')  # 加载预训练的人脸检测分类器
 
 # 加载眼睛检测分类器
-eyeCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')  # 加载预训练的眼睛检测分类器
+eyeCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
+# 加载预训练的眼睛检测分类器
 
 # 检测灰度图像中的人脸
-faces = faceCascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+faces = faceCascade.detectMultiScale(gray, 
+scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
 print("发现{0}张人脸!".format(len(faces)))  # 打印检测到的人脸数量
 print("其位置分别是：")
@@ -319,7 +322,8 @@ for (x, y, w, h) in faces:  # 遍历检测到的每张人脸
 
 
     # 检测眼睛区域
-    eyes = eyeCascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+    eyes = eyeCascade.detectMultiScale(gray, 
+    scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
     # 在人脸区域绘制蓝色的眼睛矩形框
     for (ex, ey, ew, eh) in eyes:
@@ -365,13 +369,15 @@ cap = cv.VideoCapture("jupyter/video.mp4")
 
 # 设置初始跟踪窗口 (x, y, w, h)
 track_window = (800, 400, 200, 160)  
-ret, frame = cap.read()  # 读取视频的第一帧，ret 表示是否成功，frame 是图像数据
+ret, frame = cap.read()  
+# 读取视频的第一帧，ret 表示是否成功，frame 是图像数据
 x, y, w, h = track_window  
 
 # 提取初始区域并转换为 HSV 颜色空间
 hsv_roi = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
 
-mask = cv.inRange(hsv_roi, np.array((0., 60., 32.)), np.array((180., 255., 255.)))  # 创建掩码，过滤特定颜色范围
+mask = cv.inRange(hsv_roi, np.array((0., 60., 32.)), np.array((180., 255., 255.)))
+# 创建掩码，过滤特定颜色范围
 
 # 计算目标区域的色调直方图并归一化
 roi_hist = cv.calcHist([hsv_roi], [0], mask, [180], [0, 180])
@@ -383,7 +389,8 @@ termcriteria = (cv.TERM_CRITERIA_COUNT | cv.TERM_CRITERIA_EPS, 10, 1)
 
 # 初始化视频写入对象
 fourcc = cv.VideoWriter_fourcc(*'mp4v')  # 定义视频编码格式为 MP4V
-out = cv.VideoWriter("result/task6/tracked_video.mp4", fourcc, 30.0, (frame.shape[1], frame.shape[0]))  
+out = cv.VideoWriter("result/task6/tracked_video.mp4",
+    fourcc, 30.0, (frame.shape[1], frame.shape[0]))  
 # 创建输出视频，帧率 30，尺寸与输入帧相同
 
 # 视频帧循环处理
@@ -398,7 +405,8 @@ while True:
         ret, track_window = cv.meanShift(dst, track_window, termcriteria)
         
         x, y, w, h = track_window  # 获取更新后的窗口坐标和大小
-        img2 = cv.rectangle(frame, (x, y), (x+w, y+h), 255, 2)  # 在当前帧上绘制白色跟踪框，线宽为 2
+        img2 = cv.rectangle(frame, (x, y), (x+w, y+h), 255, 2)  
+        # 在当前帧上绘制白色跟踪框，线宽为 2
         out.write(img2)  # 将带跟踪框的帧写入输出视频
     else:
         break  # 如果帧读取失败（视频结束），退出循环
@@ -435,7 +443,8 @@ def main():
         
         # 设置输出视频（使用原始尺寸）
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        out = cv2.VideoWriter("result/task7/dlib_tracked.mp4", fourcc, 30.0, (width, height))
+        out = cv2.VideoWriter("result/task7/dlib_tracked.mp4", 
+            fourcc, 30.0, (width, height))
 
         # 视频流
         while True:
@@ -517,43 +526,63 @@ def region_of_interest(image, vertices):
 def hough_lines(img, rho, theta, threshold, min_line_len, max_line_gap):
     # rho: 距离精度，theta: 角度精度，threshold: 累加阈值
     # min_line_len: 最小线段长度，max_line_gap: 最大断裂长度
-    lines = cv.HoughLinesP(img, rho, theta, threshold, np.array([]), minLineLength=min_line_len, maxLineGap=max_line_gap)
+    lines = cv.HoughLinesP(img, rho, theta, 
+        threshold, np.array([]), minLineLength=min_line_len, 
+        maxLineGap=max_line_gap)
     return lines  # 返回检测到的线段，每条线段由起点和终点坐标表示
 
 # 绘制车道线
 def draw_lines(image, lines, color=[255,0,0], thickness=2):
-    right_y_set, right_x_set, right_slope_set = [], [], []  # 存储右车道线的 y 坐标、x 坐标和斜率
-    left_y_set, left_x_set, left_slope_set = [], [], []  # 存储左车道线的 y 坐标、x 坐标和斜率
+    right_y_set, right_x_set, right_slope_set = [], [], []  
+    # 存储右车道线的 y 坐标、x 坐标和斜率
+    left_y_set, left_x_set, left_slope_set = [], [], []  
+    # 存储左车道线的 y 坐标、x 坐标和斜率
     slope_min, slope_max = 0.35, 0.85  # 定义车道线斜率的有效范围
     middle_x = image.shape[1] / 2  # 计算图像水平中线位置
     max_y = image.shape[0]  # 获取图像高度
     for line in lines:  # 遍历所有检测到的线段
-        for x1, y1, x2, y2 in line:  # 提取线段的起点 (x1, y1) 和终点 (x2, y2)
-            fit = np.polyfit((x1, x2), (y1, y2), 1)  # 对线段进行一次多项式拟合
+        for x1, y1, x2, y2 in line:  
+        # 提取线段的起点 (x1, y1) 和终点 (x2, y2)
+            fit = np.polyfit((x1, x2), (y1, y2), 1)  
+            # 对线段进行一次多项式拟合
             slope = fit[0]  # 获取斜率
-            if slope_min < np.absolute(slope) <= slope_max:  # 检查斜率是否在有效范围内
-                if slope > 0 and x1 > middle_x and x2 > middle_x:  # 判断为右车道线（正斜率且在图像右侧）
+            if slope_min < np.absolute(slope) <= slope_max:  
+            # 检查斜率是否在有效范围内
+                if slope > 0 and x1 > middle_x and x2 > middle_x:  
+                # 判断为右车道线（正斜率且在图像右侧）
                     right_y_set.extend([y1, y2])
                     right_x_set.extend([x1, x2])
                     right_slope_set.append(slope)
-                elif slope < 0 and x1 < middle_x and x2 < middle_x:  # 判断为左车道线（负斜率且在图像左侧）
+                elif slope < 0 and x1 < middle_x and x2 < middle_x:  
+                # 判断为左车道线（负斜率且在图像左侧）
                     left_y_set.extend([y1, y2])
                     left_x_set.extend([x1, x2])
                     left_slope_set.append(slope)
     # 绘制左车道线
     if left_y_set:  # 如果检测到左车道线数据
-        lindex = left_y_set.index(min(left_y_set))  # 找到最高点（y 坐标最小）的索引
-        left_x_top, left_y_top = left_x_set[lindex], left_y_set[lindex]  # 获取顶部坐标
+        lindex = left_y_set.index(min(left_y_set))  
+        # 找到最高点（y 坐标最小）的索引
+        left_x_top, left_y_top = left_x_set[lindex], left_y_set[lindex]  
+        # 获取顶部坐标
         lslope = np.median(left_slope_set)  # 使用斜率中值提高稳定性
-        left_x_bottom = int(left_x_top + (max_y - left_y_top) / lslope)  # 根据斜率计算底部 x 坐标
-        cv.line(image, (left_x_bottom, max_y), (left_x_top, left_y_top), color, thickness)  # 绘制左车道线
+        left_x_bottom = int(left_x_top + (max_y - left_y_top) / lslope)  
+        # 根据斜率计算底部 x 坐标
+        cv.line(image, (left_x_bottom, max_y), 
+            (left_x_top, left_y_top), color, thickness)  
+        # 绘制左车道线
     # 绘制右车道线
     if right_y_set:  # 如果检测到右车道线数据
-        rindex = right_y_set.index(min(right_y_set))  # 找到最高点（y 坐标最小）的索引
-        right_x_top, right_y_top = right_x_set[rindex], right_y_set[rindex]  # 获取顶部坐标
-        rslope = np.median(right_slope_set)  # 使用斜率中值提高稳定性
-        right_x_bottom = int(right_x_top + (max_y - right_y_top) / rslope)  # 根据斜率计算底部 x 坐标
-        cv.line(image, (right_x_bottom, max_y), (right_x_top, right_y_top), color, thickness)  # 绘制右车道线
+        rindex = right_y_set.index(min(right_y_set))  
+        # 找到最高点（y 坐标最小）的索引
+        right_x_top, right_y_top = right_x_set[rindex], right_y_set[rindex]  
+        # 获取顶部坐标
+        rslope = np.median(right_slope_set)  
+        # 使用斜率中值提高稳定性
+        right_x_bottom = int(right_x_top + (max_y - right_y_top) / rslope)  
+        # 根据斜率计算底部 x 坐标
+        cv.line(image, (right_x_bottom, max_y), 
+            (right_x_top, right_y_top), color, thickness)  
+        # 绘制右车道线
     return image  # 返回绘制车道线的图像
 
 # 图像融合
@@ -568,7 +597,8 @@ def process_image(image):
     max_line_gap = 60  # 霍夫变换允许的最大线段断裂长度
     kernel_size = 5  # 高斯模糊的核大小
     canny_low_threshold = 75  # Canny 边缘检测的低阈值
-    canny_high_threshold = canny_low_threshold * 3  # Canny 边缘检测的高阈值（低阈值的 3 倍）
+    canny_high_threshold = canny_low_threshold * 3  
+    # Canny 边缘检测的高阈值（低阈值的 3 倍）
     alpha, beta, lambda_ = 0.8, 1., 0.  # 图像融合的权重参数
     imshape = image.shape  # 获取输入图像的尺寸（高度、宽度、通道数）
     # 灰度图转换
@@ -578,17 +608,23 @@ def process_image(image):
     # Canny 边缘检测
     edge_image = canny(blur_gray, canny_low_threshold, canny_high_threshold)
     # 生成掩模区域
-    vertices = np.array([[(0, imshape[0]), (9 * imshape[1] / 20, 11 * imshape[0] / 18),
-                        (11 * imshape[1] / 20, 11 * imshape[0] / 18), (imshape[1], imshape[0])]], dtype=np.int32)
+    vertices = np.array([[(0, imshape[0]), 
+            (9 * imshape[1] / 20, 11 * imshape[0] / 18),
+            (11 * imshape[1] / 20, 11 * imshape[0] / 18), 
+            (imshape[1], imshape[0])]], dtype=np.int32)
     
-    masked_edges = region_of_interest(edge_image, vertices)  # 提取感兴趣区域，限制检测范围
+    masked_edges = region_of_interest(edge_image, vertices)  
+    # 提取感兴趣区域，限制检测范围
     # 霍夫变换检测直线
-    lines = hough_lines(masked_edges, rho, theta, hof_threshold, min_line_len, max_line_gap)
-    line_image = np.zeros_like(image)  # 创建与原图大小相同的空白图像，用于绘制车道线
+    lines = hough_lines(masked_edges, rho, theta, 
+        hof_threshold, min_line_len, max_line_gap)
+    line_image = np.zeros_like(image)  
+    # 创建与原图大小相同的空白图像，用于绘制车道线
     # 绘制车道线
     line_image = draw_lines(line_image, lines)
     # 图像融合
-    lines_edges = weighted_img(line_image, image, alpha, beta, lambda_)
+    lines_edges = weighted_img(line_image, image, 
+                                alpha, beta, lambda_)
 
     return lines_edges  # 返回处理后的图像
 
@@ -640,18 +676,23 @@ def get_homo(img1, img2):
     all_matches = [m[0] for m in matches]
     
     # 绘制所有匹配并保存结果
-    match_img = cv.drawMatches(img1, k1, img2, k2, all_matches, None, flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+    match_img = cv.drawMatches(img1, k1, img2, k2, 
+        all_matches, None, 
+        flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
     cv.imwrite("result/task_add_1/sift_matches.jpg", match_img)
 
     # 筛选优质匹配，使用 Lowe's ratio test
     verify_ratio = 0.8  # 匹配比率阈值，判断匹配质量
     verify_matches = []
     for m1, m2 in matches:
-        if m1.distance < verify_ratio * m2.distance:  # 如果第一个邻居距离小于第二个的 0.8 倍，则保留
+        if m1.distance < verify_ratio * m2.distance:  
+        # 如果第一个邻居距离小于第二个的 0.8 倍，则保留
             verify_matches.append(m1)
     
     # 绘制优质匹配并保存
-    good_matches_img = cv.drawMatches(img1, k1, img2, k2, verify_matches, None, flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+    good_matches_img = cv.drawMatches(img1, k1, img2, k2, 
+        verify_matches, None, 
+        flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
     cv.imwrite("result/task_add_1/sift_good_matches.jpg", good_matches_img) 
     
     # 检查匹配点数是否足够计算单应性矩阵
@@ -665,7 +706,8 @@ def get_homo(img1, img2):
         H, _ = cv.findHomography(img1_pts, img2_pts, cv.RANSAC, 5.0)
         return H 
     else:
-        print(f"Error: Insufficient matches ({len(verify_matches)} < {min_matches})")  # 输出错误信息
+        print(f"Error: Insufficient matches ({len(verify_matches)} < {min_matches})")  
+        # 输出错误信息
         exit()
 
 def stitch_image(img1, img2, H):
@@ -674,19 +716,23 @@ def stitch_image(img1, img2, H):
     h2, w2 = img2.shape[:2]
     
     # 定义两幅图像的角点坐标
-    img1_dims = np.float32([[0,0], [0,h1-1], [w1-1,h1-1], [w1-1,0]]).reshape(-1,1,2) 
-    img2_dims = np.float32([[0,0], [0,h2-1], [w2-1,h2-1], [w2-1,0]]).reshape(-1,1,2)
+    img1_dims = np.float32([[0,0], [0,h1-1], 
+                            [w1-1,h1-1], [w1-1,0]]).reshape(-1,1,2) 
+    img2_dims = np.float32([[0,0], [0,h2-1], 
+                            [w2-1,h2-1], [w2-1,0]]).reshape(-1,1,2)
     
     # 对第一幅图像的角点应用单应性变换
     img1_transform = cv.perspectiveTransform(img1_dims, H)
-    result = np.concatenate([img2_dims, img1_transform], axis=0)  # 合并两幅图像的角点坐标
+    result = np.concatenate([img2_dims, img1_transform], axis=0)  
+    # 合并两幅图像的角点坐标
     
     [x_min, y_min] = np.int32(np.floor(result.min(axis=0).ravel())) 
     [x_max, y_max] = np.int32(np.ceil(result.max(axis=0).ravel())) 
     transform_dist = [-x_min, -y_min]  # 计算平移距离以避免负坐标
     
     # 创建平移矩阵，用于调整图像位置
-    transform_array = np.array([[1,0,transform_dist[0]], [0,1,transform_dist[1]], [0,0,1]])
+    transform_array = np.array([[1,0,transform_dist[0]], 
+                                [0,1,transform_dist[1]], [0,0,1]])
     
     # 组合单应性矩阵和平移矩阵
     output_shape = (x_max-x_min, y_max-y_min)
@@ -694,7 +740,8 @@ def stitch_image(img1, img2, H):
     
     # 对第一幅图像应用透视变换并拼接第二幅图像
     result_img = cv.warpPerspective(img1, H_output, output_shape)
-    result_img[transform_dist[1]:transform_dist[1]+h2, transform_dist[0]:transform_dist[0]+w2] = img2
+    result_img[transform_dist[1]:transform_dist[1]+h2, 
+            transform_dist[0]:transform_dist[0]+w2] = img2
     return result_img  # 返回拼接后的图像
 
 # 主程序
