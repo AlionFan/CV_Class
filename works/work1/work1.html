@@ -1,0 +1,153 @@
+<!-- 第一周作业内容 -->
+<div id="work1">
+    <h1>第一周作业</h1>
+    <h2>1. 原图像</h2>
+    
+    <style>
+        .image-container1 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .image-with-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .image-with-title img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .image-title {
+            text-align: center;
+            margin: 0;
+            font-size: 16px;
+        }
+    </style>
+    
+    <div class="image-container1">
+        <img src="/CV_Class/works/work1/pic/hg.jpg" alt="胡歌">
+        <!-- <img src="/CV_Class/works/work1/pic/wyz.jpg" alt="吴彦祖"> -->
+    </div>
+    
+    <h3>代码实现：</h3>
+    <h4>1. 使用HSV颜色空间进行图像分割</h4>
+    <pre><code class="language-python">
+import cv2
+import numpy as np
+
+hg = cv2.imread("./pic/hg.jpg")  # ./pic/wyz.jpg
+hg_hsv = cv2.cvtColor(hg, cv2.COLOR_BGR2HSV)
+
+min_HSV = np.array([0, 10, 80], dtype="uint8")
+max_HSV = np.array([33, 255, 255], dtype="uint8")
+mask = cv2.inRange(hg_hsv, min_HSV, max_HSV)
+result = cv2.bitwise_and(hg, hg, mask=mask)
+
+cv2.imshow("img", hg)
+cv2.imshow("result", result)
+cv2.waitKey()
+cv2.destroyAllWindows()
+    </code></pre>
+
+    <h4>2. 多种实现方法</h4>
+    <pre><code class="language-python">
+import cv2
+import numpy as np
+
+# canny 边缘检测
+def canny_edge_detection(image, low_threshold=100, high_threshold=200):
+    # 转换为灰度图像
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    # 使用Canny边缘检测
+    edges = cv2.Canny(gray, low_threshold, high_threshold)
+    return edges
+
+# 课上方法，添加蒙版
+def add_mask_detect(image, min_HSV=[0, 10, 80], max_HSV=[33, 255, 255]):
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)  # BGR转化为HSV格式
+    min_HSV = np.array(min_HSV, dtype="uint8")
+    max_HSV = np.array(max_HSV, dtype="uint8")
+    mask = cv2.inRange(hsv, min_HSV, max_HSV)
+    result = cv2.bitwise_and(image, image, mask=mask)
+    return result
+
+def sobel_edge_detection(image, ksize=3):
+    # 转换为灰度图像
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    # 计算x和y方向的梯度
+    sobelx = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=ksize)
+    sobely = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=ksize)
+    # 计算梯度幅值
+    sobel = np.sqrt(sobelx**2 + sobely**2)
+    # 转换为8位图像
+    sobel = np.uint8(sobel)
+    return sobel
+
+def laplacian_edge_detection(image, ksize=3):
+    # 转换为灰度图像
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    # 使用Laplacian算子
+    laplacian = cv2.Laplacian(gray, cv2.CV_64F, ksize=ksize)
+    # 转换为8位图像
+    laplacian = np.uint8(np.absolute(laplacian))
+    return laplacian
+
+# 读取图像
+image = cv2.imread('pic/hg.jpg')
+# 调用Canny边缘检测函数
+edges = canny_edge_detection(image)
+edges = add_mask_detect(image)
+edges = sobel_edge_detection(image)
+edges = laplacian_edge_detection(image)
+
+# 显示结果
+cv2.imshow('Canny Edge Detection', edges)
+cv2.waitKey()
+cv2.destroyAllWindows()
+    </code></pre>
+    
+    <div class="image-grid-container">
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/main1.png" alt="蒙版">
+            <p class="image-grid-title">蒙版效果</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/canny.png" alt="Canny">
+            <p class="image-grid-title">Canny边缘检测</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/sobel.png" alt="sobel">
+            <p class="image-grid-title">Sobel边缘检测</p>
+        </div>
+        <div class="image-grid-item">
+            <img src="/CV_Class/works/work1/pic/laplacian.png" alt="laplacian">
+            <p class="image-grid-title">Laplacian边缘检测</p>
+        </div>
+    </div>
+    <h3>实验结果分析：</h3>
+    <p>
+        本实验实现了多种图像处理方法，主要包括以下内容：
+    </p>
+    <p>
+        1. <strong>HSV颜色空间分割</strong>：
+        <ul>
+            <li>通过设定HSV的阈值范围（色调：0-33，饱和度：10-255，亮度：80-255），成功提取出图像中的黄色区域。使用位运算（bitwise_and）将掩码应用于原图，得到只保留黄色区域的结果图像。</li>
+        </ul>
+    </p>
+    <p>
+        2. <strong>边缘检测方法对比</strong>：
+        <ul>
+            <li>蒙版方法：通过HSV颜色空间和阈值分割，能够有效提取特定颜色区域，适合颜色特征明显的目标检测。</li>
+            <li>Canny边缘检测：能够检测出图像中的显著边缘，对噪声具有较好的抑制作用，边缘定位准确。</li>
+            <li>Sobel边缘检测：通过计算x和y方向的梯度来检测边缘，对水平和垂直方向的边缘较为敏感。</li>
+            <li>Laplacian边缘检测：基于二阶导数，对边缘的定位较为精确，但对噪声较为敏感。</li>
+        </ul>
+    </p>
+    <p>
+        通过对比不同方法的结果，可以看出各种方法各有特点：HSV颜色空间分割适合基于颜色的目标提取，
+        而不同的边缘检测算法则适用于不同的场景需求。在实际应用中，可以根据具体需求选择合适的方法或组合使用。
+    </p>
+</div> 

@@ -1,0 +1,255 @@
+<div id="work2">
+    <h1>第二周作业</h1>
+    <h2>1. 原图像</h2>
+    <div class="image-container1">
+        <img src="/CV_Class/works/work2/pic/hg.jpg" alt="胡歌">
+    </div>
+    
+    <h3>代码实现：</h3>
+    <h4>1. 形态学操作</h4>
+<pre><code class="language-python">
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 读取图像
+img = cv2.imread('pic/hg.jpg')
+
+# 创建结构元素
+kernel = np.ones((5,5), np.uint8)
+
+# 进行形态学操作
+erosion = cv2.erode(img, kernel, iterations=1)  # 腐蚀
+dilation = cv2.dilate(img, kernel, iterations=1)  # 膨胀
+opening = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)  # 开运算
+closing = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)  # 闭运算
+gradient = cv2.morphologyEx(img, cv2.MORPH_GRADIENT, kernel)  # 形态学梯度
+tophat = cv2.morphologyEx(img, cv2.MORPH_TOPHAT, kernel)  # 顶帽
+blackhat = cv2.morphologyEx(img, cv2.MORPH_BLACKHAT, kernel)  # 黑帽
+
+# 创建图像展示
+titles = ['原图', '腐蚀', '膨胀', '开运算', '闭运算', '形态学梯度', '顶帽', '黑帽']
+images = [img, erosion, dilation, opening, closing, gradient, tophat, blackhat]
+
+# 设置图像显示
+plt.figure(figsize=(16, 8))
+for i in range(8):
+    plt.subplot(2, 4, i+1)
+    plt.imshow(cv2.cvtColor(images[i], cv2.COLOR_BGR2RGB))
+    plt.title(titles[i])
+    plt.axis('off')
+
+plt.tight_layout()
+plt.show()
+</code></pre>
+
+    <h4>2. 滤波器</h4>
+<pre><code class="language-python">
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 读取图像
+img = cv2.imread('pic/hg.jpg')
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+# 均值滤波
+mean_blur = cv2.blur(img, (5,5))
+
+# 高斯滤波
+gaussian_blur = cv2.GaussianBlur(img, (5,5), 0)
+
+# 中值滤波
+median_blur = cv2.medianBlur(img, 5)
+
+# 双边滤波
+bilateral_blur = cv2.bilateralFilter(img, 9, 75, 75)
+
+# 创建图像对比展示
+plt.figure(figsize=(12,8))
+
+plt.subplot(231)
+plt.imshow(img)
+plt.title('原图')
+plt.axis('off')
+
+plt.subplot(232)
+plt.imshow(mean_blur)
+plt.title('均值滤波')
+plt.axis('off')
+
+plt.subplot(233)
+plt.imshow(gaussian_blur)
+plt.title('高斯滤波')
+plt.axis('off')
+
+plt.subplot(234)
+plt.imshow(median_blur)
+plt.title('中值滤波')
+plt.axis('off')
+
+plt.subplot(235)
+plt.imshow(bilateral_blur)
+plt.title('双边滤波')
+plt.axis('off')
+
+plt.tight_layout()
+plt.savefig('Figure_2.png')
+plt.show()
+</code></pre>
+
+    <h4>3. 直方图均衡化</h4>
+<pre><code class="language-python">
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 读取图像
+img = cv2.imread('pic/hg.jpg')
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# 创建子图布局
+plt.figure(figsize=(12, 8))
+
+# 显示原始灰度图
+plt.subplot(2, 2, 1)
+plt.imshow(gray, cmap='gray')
+plt.title('原始灰度图')
+
+# 计算并显示直方图
+plt.subplot(2, 2, 2)
+plt.hist(gray.ravel(), 256, [0, 256])
+plt.title('灰度直方图')
+
+# 直方图均衡化
+equ = cv2.equalizeHist(gray)
+plt.subplot(2, 2, 3)
+plt.imshow(equ, cmap='gray')
+plt.title('直方图均衡化结果')
+
+# 自适应直方图均衡化
+clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+cl1 = clahe.apply(gray)
+plt.subplot(2, 2, 4)
+plt.imshow(cl1, cmap='gray')
+plt.title('自适应直方图均衡化结果')
+
+plt.tight_layout()
+plt.savefig('Figure_3.png')
+plt.show()
+</code></pre>
+
+    <h4>4. 边缘检测</h4>
+<pre><code class="language-python">
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 读取图像
+img = cv2.imread('pic/hg.jpg', 0)
+
+# 创建子图
+plt.figure(figsize=(15, 10))
+
+# 原图
+plt.subplot(231)
+plt.imshow(img, cmap='gray')
+plt.title('原始图像')
+
+# Sobel算子边缘检测
+sobelx = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)
+sobely = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=3)
+sobel = np.sqrt(sobelx**2 + sobely**2)
+plt.subplot(232)
+plt.imshow(sobel, cmap='gray')
+plt.title('Sobel边缘检测')
+
+# Scharr算子边缘检测
+scharrx = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=-1)  # X方向梯度
+scharry = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=-1)  # Y方向梯度
+scharr = np.sqrt(scharrx**2 + scharry**2)  # 梯度幅值计算
+plt.subplot(233)
+plt.imshow(scharr, cmap='gray')
+plt.title('Scharr边缘检测')
+
+# Laplacian算子边缘检测
+laplacian = cv2.Laplacian(img, cv2.CV_64F)
+plt.subplot(234)
+plt.imshow(np.absolute(laplacian), cmap='gray')
+plt.title('Laplacian边缘检测')
+
+# Canny边缘检测
+canny = cv2.Canny(img, 100, 200)
+plt.subplot(235)
+plt.imshow(canny, cmap='gray')
+plt.title('Canny边缘检测')
+
+plt.tight_layout()
+plt.savefig('Figure_4.png')
+plt.show()
+</code></pre>
+
+<h3>实验结果</h3>
+<div class="image-grid-container">
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work2/pic/Figure_1.png" alt="形态学操作">
+        <p class="image-grid-title">形态学操作</p>
+    </div>
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work2/pic/Figure_2.png" alt="滤波">
+        <p class="image-grid-title">滤波效果</p>
+    </div>
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work2/pic/Figure_3.png" alt="直方图均衡化">
+        <p class="image-grid-title">直方图均衡化</p>
+    </div>
+    <div class="image-grid-item">
+        <img src="/CV_Class/works/work2/pic/Figure_4.png" alt="边缘检测">
+        <p class="image-grid-title">边缘检测</p>
+    </div>
+</div>
+
+    <h3>实验结果分析：</h3>
+    <p>
+        本实验实现了多种图像处理方法，主要包括以下内容：
+    </p>
+    <p>
+        1. <strong>形态学操作</strong>：
+        <ul>
+            <li>腐蚀操作：能够去除图像中的小物体，使目标区域变小。</li>
+            <li>膨胀操作：能够填充目标区域中的小孔，使目标区域变大。</li>
+            <li>开运算：先腐蚀后膨胀，可以去除小的噪点，同时保持目标区域大小基本不变。</li>
+            <li>闭运算：先膨胀后腐蚀，可以填充小的空洞，同时保持目标区域大小基本不变。</li>
+            <li>形态学梯度：膨胀结果与腐蚀结果的差值，可以突出边缘信息。</li>
+            <li>顶帽和黑帽：分别用于突出图像中的亮细节和暗细节。</li>
+        </ul>
+    </p>
+    <p>
+        2. <strong>滤波处理</strong>：
+        <ul>
+            <li>均值滤波：简单有效，但可能会模糊图像细节。</li>
+            <li>高斯滤波：考虑了像素距离的权重，对噪声有较好的抑制作用。</li>
+            <li>中值滤波：对椒盐噪声特别有效，能较好地保持边缘信息。</li>
+            <li>双边滤波：在保持边缘的同时进行平滑，效果最为自然。</li>
+        </ul>
+    </p>
+    <p>
+        3. <strong>直方图均衡化</strong>：
+        <ul>
+            <li>全局直方图均衡化：提高了图像的整体对比度，但可能会过度增强某些区域。</li>
+            <li>自适应直方图均衡化：通过局部区域的处理，能够更好地保持细节信息，效果更加自然。</li>
+        </ul>
+    </p>
+    <p>
+        4. <strong>边缘检测</strong>：
+        <ul>
+            <li>Sobel算子：对水平和垂直方向的边缘较为敏感，计算简单快速。</li>
+            <li>Scharr算子：是Sobel算子的改进版本，对边缘的检测更加精确。</li>
+            <li>Laplacian算子：对边缘的定位较为精确，但对噪声较为敏感。</li>
+            <li>Canny边缘检测：综合性能最好，能够抑制噪声，同时保持边缘的连续性。</li>
+        </ul>
+    </p>
+    <p>
+        通过本次实验，我们深入了解了各种图像处理方法的特点和适用场景。在实际应用中，可以根据具体需求选择合适的方法或组合使用多种方法，以达到最佳的处理效果。
+    </p>
+</div> 

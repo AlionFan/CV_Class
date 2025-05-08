@@ -1,0 +1,728 @@
+---
+---
+@import "main"; 
+/* 全局变量 */
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-light: #f8fafc;
+    --text-main: #1e293b;
+    --text-light: #64748b;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+    --transition: all 0.3s ease;
+}
+
+/* 全局内容容器样式 */
+.main-content {
+    margin-top: 64px;
+    min-height: calc(100vh - 64px);
+    padding: 32px 48px;
+    background-color: white;
+}
+
+/* 导航条样式 */
+.site-header {
+    background-color: white;
+    padding: 15px 0;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.site-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--text-main);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.site-title:hover {
+    color: var(--primary-color);
+}
+
+.site-nav {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+    margin: 0; /* 移除顶部边距 */
+}
+
+.site-nav a {
+    font-size: 16px;
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: var(--transition);
+}
+
+.site-nav a:hover {
+    color: var(--primary-color);
+    background-color: var(--bg-light);
+}
+
+.site-nav a.current {
+    font-weight: 600;
+    color: var(--primary-color);
+    background-color: var(--bg-light);
+}
+
+/* home页面格式 */
+/* 全局居中样式 */
+.center-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 64px; /* 添加顶部边距 */
+}
+
+/* 图片样式 */
+.center-container img {
+    max-width: 100%; /* 图片最大宽度为容器宽度 */
+    height: auto; /* 高度自适应 */
+}
+
+/* 自定义分割线样式 */
+.custom-hr {
+    border: 0;
+    height: 2px;
+    background: #133;
+    margin: 20px 0;
+}
+
+ /* 自定义分割线样式 */
+.divider {
+    height: 2px; /* 设置分割线高度 */
+    background: linear-gradient(to right, #ff7e5f, #feb47b); /* 渐变颜色 */
+    margin: 20px 0; /* 设置上下边距 */
+    border-radius: 2px; /* 圆角效果 */
+}
+
+/* 数据集页面布局 */
+.dataset-page {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* 左侧导航栏样式 */
+.dataset-sidebar {
+    width: 220px;
+    padding: 24px;
+    background-color: white;
+    border-right: 1px solid var(--border-color);
+    position: fixed;
+    left: 0;
+    top: 64px;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+/* 右侧目录导航样式 */
+.content-sidebar {
+    width: 220px;
+    padding: 24px;
+    background-color: white;
+    border-left: 1px solid var(--border-color);
+    position: fixed;
+    right: 0;
+    top: 64px;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+/* 中间内容区域样式 */
+.dataset-content {
+    flex: 1;
+    margin-left: 220px;
+    margin-right: 220px;
+    margin-top: 64px;
+    padding: 32px 48px;
+    min-height: calc(100vh - 64px);
+    position: relative;
+    background-color: white;
+}
+
+/* 数据集目录样式 */
+.dataset-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dataset-nav li {
+    margin: 8px 0;
+}
+
+.dataset-nav a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-size: 15px;
+    display: block;
+    padding: 10px 14px;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.dataset-nav a:hover {
+    background-color: var(--bg-light);
+    color: var(--primary-color);
+    transform: translateX(4px);
+}
+
+.dataset-nav a.active {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+}
+
+/* 右侧目录导航样式 */
+.toc-container {
+    position: sticky;
+    top: 24px;
+}
+
+.toc-container h3 {
+    margin-bottom: 16px;
+    color: var(--text-main);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.toc-nav {
+    font-size: 14px;
+}
+
+.toc-nav ul {
+    list-style: none;
+    padding-left: 16px;
+}
+
+.toc-nav li {
+    margin: 10px 0;
+}
+
+.toc-nav a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: var(--transition);
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: block;
+}
+
+.toc-nav a:hover {
+    color: var(--primary-color);
+    background-color: var(--bg-light);
+}
+
+.toc-nav a.active {
+    color: var(--primary-color);
+    font-weight: 600;
+    background-color: var(--bg-light);
+}
+
+/* 响应式布局 */
+@media (max-width: 1400px) {
+    .content-sidebar, .dataset-sidebar {
+        width: 200px;
+    }
+    .dataset-content {
+        margin-left: 200px;
+        margin-right: 200px;
+        padding: 24px 36px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .content-sidebar {
+        display: none;
+    }
+    .dataset-content {
+        margin-right: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dataset-sidebar {
+        position: fixed;
+        left: -220px;
+        transition: left 0.3s ease;
+        z-index: 1000;
+        background-color: white;
+        box-shadow: var(--shadow-md);
+        height: 100vh;
+        overflow-y: auto;
+        padding-top: 60px; /* 为顶部导航栏留出空间 */
+    }
+
+    .dataset-sidebar.active {
+        left: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+        position: fixed;
+        left: 20px;
+        top: 20px;
+        z-index: 1001;
+        background: white;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: var(--shadow-sm);
+        cursor: pointer;
+    }
+
+    .menu-toggle span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: var(--text-main);
+        margin: 5px 0;
+        transition: 0.3s;
+    }
+
+    /* 当侧边栏打开时，调整主内容区域 */
+    .dataset-content {
+        transition: margin-left 0.3s ease;
+    }
+
+    .dataset-content.sidebar-active {
+        margin-left: 0;
+    }
+
+    /* 优化移动端滚动体验 */
+    body.sidebar-open {
+        overflow: hidden;
+    }
+
+    /* 调整图片网格布局 */
+    .image-grid-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        width: 100%;
+    }
+
+    .image-container1 {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .image-container1 img {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        margin-bottom: 16px;
+    }
+
+    /* 调整代码块显示 */
+    pre {
+        padding: 15px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* 调整标题大小 */
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    /* 调整导航栏样式 */
+    .site-nav {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .site-nav a {
+        width: 100%;
+        text-align: center;
+        padding: 8px;
+    }
+
+    /* 调整内容区域padding */
+    .main-content {
+        padding: 16px;
+    }
+
+    /* 调整页脚样式 */
+    .site-footer {
+        padding: 1rem;
+        margin-top: 2rem;
+    }
+}
+
+/* 添加平板设备的特定样式 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .dataset-sidebar {
+        width: 180px;
+    }
+
+    .content-sidebar {
+        width: 180px;
+    }
+
+    .dataset-content {
+        margin-left: 180px;
+        margin-right: 180px;
+        padding: 24px;
+    }
+
+    .image-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 添加触摸设备的滚动优化 */
+@media (hover: none) {
+    .dataset-sidebar, .content-sidebar {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* 添加深色模式支持 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-light: #1a1a1a;
+        --text-main: #ffffff;
+        --text-light: #a0a0a0;
+        --border-color: #333333;
+    }
+
+    .site-header, .dataset-sidebar, .content-sidebar {
+        background-color: #1a1a1a;
+    }
+
+    pre {
+        background-color: #2d2d2d;
+    }
+
+    .sidebar-overlay {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+}
+
+/* 作业图片容器样式 */
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin: 24px 0;
+}
+
+.image-container1 img {
+    width: 400px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+}
+
+.image-container1 img:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+/* 作业内容显示控制 */
+.work-content {
+    display: none;
+}
+
+.work-content.active {
+    display: block;
+}
+
+/* 代码块样式 */
+pre {
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    overflow-x: auto;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+    white-space: pre-wrap;       /* 允许保留空白同时换行 */
+    word-wrap: break-word;       /* 长单词自动换行 */
+    max-width: 100%;             /* 防止溢出容器 */
+}
+
+/* 在移动端保持代码可读性 */
+@media (max-width: 768px) {
+    /* 优化代码块中的行号显示 */
+    .line-numbers-rows {
+        white-space: normal !important;  /* 覆盖prismjs默认样式 */
+        word-break: keep-all;           /* 保持行号不换行 */
+    }
+    pre {
+        white-space: pre-wrap;  /* 确保移动端也强制换行 */
+        font-size: 14px;        /* 适当缩小字体 */
+        padding: 15px;
+        overflow-x: visible;    /* 禁用水平滚动条 */
+    }
+}
+
+/* 复制按钮样式 */
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: var(--text-light);
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.copy-btn:hover {
+    background-color: var(--bg-light);
+    color: var(--primary-color);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.copy-btn.copied {
+    background-color: #10b981;
+    color: white;
+    border-color: #10b981;
+}
+
+code {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    padding-right: 40px;  /* 为复制按钮留出空间 */
+}
+
+/* Python代码高亮 */
+.language-python {
+    color: #333;
+}
+
+.language-python .keyword {
+    color: #0033B3;  /* 关键字颜色 */
+}
+
+.language-python .function {
+    color: #7A7A2B;  /* 函数名颜色 */
+}
+
+.language-python .string {
+    color: #067D17;  /* 字符串颜色 */
+}
+
+.language-python .number {
+    color: #1750EB;  /* 数字颜色 */
+}
+
+.language-python .comment {
+    color: #808080;  /* 注释颜色 */
+    font-style: italic;
+}
+
+/* 图片网格布局样式 */
+.image-grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin: 24px auto; /* 修改为上下24px，左右自动居中 */
+    width: 90%; /* 添加宽度为90% */
+    max-width: 1200px; /* 可选：添加最大宽度限制 */
+}
+
+/* 其他相关样式保持不变 */
+.image-grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* 添加此行使内容垂直居中 */
+    padding: 16px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.image-grid-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.image-grid-item img {
+    max-width: 90%; /* 修改为原来的90% */
+    height: auto;
+    margin-bottom: 12px;
+    border-radius: 8px;
+}
+
+.image-grid-title {
+    text-align: center;
+    margin: 0;
+    font-size: 16px;
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+/* Assignment和Code页面样式 */
+.assignment-content,
+.code-content {
+    margin-top: 64px;
+    padding: 32px 48px;
+    min-height: calc(100vh - 64px);
+    background-color: white;
+}
+
+/* 首页样式 */
+.home-container {
+    margin-top: 64px;
+    padding: 48px;
+    text-align: center;
+    background-color: white;
+}
+
+.home-title {
+    font-size: 2.5rem;
+    color: var(--text-main);
+    margin-bottom: 2rem;
+    line-height: 1.4;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.home-image {
+    max-width: 1000px;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    margin: 2rem auto;
+    transition: var(--transition);
+}
+
+.home-image:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Assignment页面样式 */
+.assignment-container {
+    margin-top: 64px;
+    padding: 48px;
+    background-color: white;
+}
+
+.assignment-title {
+    font-size: 2.5rem;
+    color: var(--text-main);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.assignment-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: var(--bg-light);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.video-container {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+/* Code页面样式 */
+.code-container {
+    margin-top: 64px;
+    padding: 48px;
+    background-color: white;
+}
+
+.code-title {
+    font-size: 2.5rem;
+    color: var(--text-main);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.code-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: var(--bg-light);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+/* 页脚样式 */
+.site-footer {
+    background-color: var(--bg-light);
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 4rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.site-footer p {
+    color: var(--text-light);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* 移动端导航遮罩层样式 */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    transition: opacity 0.3s ease;
+}
+
+
+
